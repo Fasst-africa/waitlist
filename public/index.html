@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUTocare 360 Driver Reward Campaign</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --graphite: #1E2224;
+    --graphite-2: #2B3033;
+    --canvas: #F6F4EF;
+    --card: #FFFFFF;
+    --ink: #20242A;
+    --muted: #6B7176;
+    --chrome: #C7CDD1;
+    --respray: #2F6FED;
+    --respray-dim: #1F4FB0;
+    --gold: #C79A2E;
+    --gold-bg: #FBF3DE;
+    --rust: #B0501F;
+    --danger: #C13B3B;
+    --radius: 3px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--canvas);
+    color: var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,.eyebrow,.stop-label,.btn,.tier-name{
+    font-family:'Oswald', sans-serif;
+  }
+
+  .wrap{ max-width: 720px; margin:0 auto; padding-bottom: 64px; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background: var(--graphite);
+    color: #EDEFEF;
+    padding: 36px 24px 26px;
+    position:relative;
+  }
+  .eyebrow{
+    display:inline-block;
+    color: var(--respray);
+    font-weight:600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+  }
+  h1{
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.05;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+  }
+  .tagline{
+    font-size: 15.5px;
+    color:#B9BEC2;
+    margin: 0 0 20px;
+  }
+
+  .tiers{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .tier{
+    border-radius: var(--radius);
+    padding: 12px 10px;
+    text-align:center;
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+  .tier .pct{ font-family:'Oswald'; font-weight:700; font-size:18px; display:block; }
+  .tier .tier-name{ font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:#C9CDD0; margin-top:2px; display:block;}
+  .tier.gold{ background: rgba(199,154,46,0.18); }
+  .tier.gold .pct{ color: var(--gold); }
+  .tier.silver{ background: rgba(199,205,209,0.12); }
+  .tier.silver .pct{ color:#E5E8EA; }
+  .tier.bronze{ background: rgba(176,80,31,0.15); }
+  .tier.bronze .pct{ color:#E08A4E; }
+
+  .referral-box{
+    margin-top: 18px;
+    background: rgba(47,111,237,0.14);
+    border: 1px solid rgba(47,111,237,0.4);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .referral-box .rtitle{
+    font-family:'Oswald';
+    font-size: 15px;
+    font-weight:600;
+    text-transform:uppercase;
+    color: #EDEFEF;
+    margin: 0 0 6px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .referral-box p{
+    font-size: 13.5px;
+    color:#C9CDD0;
+    margin: 0 0 4px;
+  }
+  .referral-box strong{ color:#EDEFEF; }
+
+  .fine{
+    font-size:12px;
+    color:#8B9095;
+    margin: 16px 0 0;
+  }
+
+  /* ---------- PROGRESS: RESPRAY GAUGE ---------- */
+  .gauge-region{
+    background: var(--graphite-2);
+    padding: 16px 24px 20px;
+  }
+  .stop-label{
+    color:#EDEFEF;
+    font-size: 13.5px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin: 0 0 10px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .stop-label span:last-child{ color: var(--respray); }
+
+  .gauge{
+    position:relative;
+    height: 10px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #55595C 0%, #3A3E40 100%);
+    overflow:hidden;
+  }
+  .gauge-fill{
+    position:absolute;
+    top:0; left:0; bottom:0;
+    width:0%;
+    background: linear-gradient(90deg, var(--respray-dim), var(--respray));
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    border-radius: 5px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .gauge-fill{ transition:none; }
+  }
+
+  /* ---------- CARD ---------- */
+  .card{
+    background: var(--card);
+    margin: 0 16px;
+    border: 1px solid #E3E0D8;
+    border-top: none;
+    padding: 28px 24px 24px;
+  }
+  @media (min-width:640px){
+    .card{ margin:0 auto; padding: 34px 40px 30px; }
+    .hero, .gauge-region{ padding-left:40px; padding-right:40px; }
+  }
+
+  .section-title{
+    font-size: 23px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 4px;
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+  }
+  .section-title .num{
+    background: var(--graphite);
+    color: var(--respray);
+    font-size:13px;
+    font-family:'Oswald';
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+  .section-sub{ color: var(--muted); font-size: 14px; margin: 0 0 22px; }
+
+  .field{ margin-bottom: 20px; }
+  .field.hidden{ display:none; }
+  label.qlabel{
+    display:block;
+    font-weight:600;
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+  label.qlabel .req{ color: var(--danger); margin-left:2px; }
+  label.qlabel .hint{
+    display:block;
+    font-weight:400;
+    font-size:13px;
+    color:var(--muted);
+    margin-top:2px;
+  }
+
+  input[type="text"], input[type="tel"], input[type="email"], select, textarea{
+    width:100%;
+    padding: 11px 12px;
+    font-size:15px;
+    font-family:'Inter', sans-serif;
+    border: 1.5px solid #D4D1C8;
+    border-radius: var(--radius);
+    background: #fff;
+    color: var(--ink);
+  }
+  textarea{ resize: vertical; min-height: 90px; }
+  input:focus, select:focus, textarea:focus{
+    outline: 3px solid var(--respray);
+    outline-offset: 1px;
+    border-color: var(--graphite);
+  }
+
+  .options{ display:flex; flex-direction:column; gap:8px; }
+  .choice, .check{
+    display:flex; align-items:center; gap:10px;
+    border:1.5px solid #DEDBD2;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    cursor:pointer;
+    background:#fff;
+  }
+  .choice:hover, .check:hover{ border-color: var(--graphite); }
+  .choice input, .check input{ accent-color: var(--respray); width:16px; height:16px; flex:none; }
+  .choice.selected, .check.selected{ border-color: var(--respray); background: #EEF3FE; }
+  .choice-text, .check-text{ font-size:14.5px; }
+
+  .grid2{ display:grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width:560px){ .grid2{ grid-template-columns: 1fr 1fr; } }
+
+  .file-field{
+    border: 1.5px dashed #C9C6BC;
+    border-radius: var(--radius);
+    padding: 16px;
+    background: #FBFAF7;
+  }
+  .file-field input[type="file"]{
+    width:100%;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  .file-note{ font-size:12.5px; color: var(--muted); margin-top:6px; }
+
+  .nav-row{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top: 28px; gap: 12px;
+  }
+  .btn{
+    font-family:'Oswald';
+    font-size: 15.5px;
+    font-weight: 600;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    padding: 13px 22px;
+    border-radius: var(--radius);
+    border: 2px solid var(--graphite);
+    cursor:pointer;
+  }
+  .btn-primary{ background: var(--respray); color: #fff; border-color: var(--respray); margin-left:auto; }
+  .btn-primary:hover{ background: var(--respray-dim); }
+  .btn-ghost{ background: transparent; color: var(--graphite); }
+  .btn-ghost:hover{ background:#EFEDE7; }
+
+  .error-msg{ color: var(--danger); font-size: 13.5px; margin-top: 22px; display:none; }
+  .error-msg.show{ display:block; }
+
+  /* ---------- THANK YOU ---------- */
+  .thanks{ text-align:center; padding: 20px 0 8px; }
+  .thanks .big{ font-size: 52px; margin-bottom: 6px; }
+  .thanks h2{ font-size: 28px; text-transform:uppercase; margin: 0 0 12px; font-family:'Oswald'; }
+  .thanks p{ color: var(--muted); font-size:15px; max-width:480px; margin: 0 auto 10px;}
+  .thanks .refer-block{
+    background: var(--gold-bg);
+    border: 1px solid #E8D9A6;
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin: 20px auto 0;
+    max-width: 480px;
+    text-align:left;
+  }
+  .thanks .refer-block h3{
+    font-family:'Oswald';
+    text-transform:uppercase;
+    font-size: 16px;
+    margin: 0 0 8px;
+    color:#6B5417;
+  }
+  .thanks .refer-block p{ color:#6B5417; font-size:13.5px; margin:0 0 6px; max-width:none; }
+  .thanks .motto{
+    margin-top:22px;
+    font-family:'Oswald'; font-weight:700; font-size:19px;
+    letter-spacing:0.03em; text-transform:uppercase; color: var(--graphite);
+  }
+  .thanks .motto span{ color: var(--respray); }
+
+  .decl{ border-top: 2px solid var(--graphite); padding-top: 18px; margin-top: 6px; }
+  .verify-note{
+    background: var(--gold-bg);
+    border: 1px solid #E8D9A6;
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    font-size: 13.5px;
+    margin-bottom: 20px;
+    color: #6B5417;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="eyebrow">AUTocare 360 · Driver Reward Campaign</span>
+    <h1>Restore Your Vehicle.<br>Save Money. Keep Driving.</h1>
+    <p class="tagline">AUTocare 360 is supporting active ride-hailing drivers with exclusive vehicle restoration opportunities.</p>
+    <div class="tiers">
+      <div class="tier gold"><span class="pct">FREE</span><span class="tier-name">Campaign Winners</span></div>
+      <div class="tier bronze"><span class="pct">20% OFF</span><span class="tier-name">Eligible Drivers</span></div>
+      <div class="tier silver"><span class="pct">50% OFF</span><span class="tier-name">Per LCDA</span></div>
+    </div>
+    <div class="referral-box">
+      <p class="rtitle">🎉 Increase Your Chances of Winning</p>
+      <p>Refer <strong>3 active ride-hailing drivers</strong> after submitting your application to unlock <strong>an extra entry</strong> into the FREE Vehicle Respray draw.</p>
+      <p>There is no limit to the number of eligible drivers you can refer — the more you refer, the higher your chances. Terms &amp; Conditions apply.</p>
+    </div>
+    <p class="fine">⏳ Limited campaign — applications are reviewed on a rolling basis. Apply early for a better chance of being selected. Submitting this form does not guarantee selection. All applications are subject to verification and campaign Terms &amp; Conditions.</p>
+  </div>
+
+  <div class="gauge-region">
+    <div class="stop-label">
+      <span id="stopText">Step 1 of 8</span>
+      <span id="stopName">Driver Information</span>
+    </div>
+    <div class="gauge">
+      <div class="gauge-fill" id="gaugeFill"></div>
+    </div>
+  </div>
+
+  <form class="card" id="acForm" novalidate>
+
+    <!-- A -->
+    <section class="step" data-step="0">
+      <h2 class="section-title"><span class="num">A</span>Driver Information</h2>
+      <p class="section-sub">Your basic contact details.</p>
+
+      <div class="field">
+        <label class="qlabel">Full Name<span class="req">*</span></label>
+        <input type="text" name="fullName" required>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label class="qlabel">Phone Number<span class="req">*</span></label>
+          <input type="tel" name="phone" required>
+        </div>
+        <div class="field">
+          <label class="qlabel">WhatsApp Number<span class="req">*</span></label>
+          <input type="tel" name="whatsapp" required>
+        </div>
+      </div>
+      <div class="field">
+        <label class="qlabel">Email Address <span class="hint" style="display:inline">(Optional)</span></label>
+        <input type="email" name="email">
+      </div>
+      <div class="field">
+        <label class="qlabel">Referral Code <span class="hint" style="display:inline">(Optional)</span></label>
+        <input type="text" name="referralCode" placeholder="Enter the referral code, if another driver invited you">
+      </div>
+      <div class="field">
+        <label class="qlabel">Address / Location Details<span class="req">*</span></label>
+        <textarea name="address" required placeholder="Your current address or location, for campaign planning and verification."></textarea>
+      </div>
+      <div class="field">
+        <label class="qlabel">Local Government Area (LGA)<span class="req">*</span></label>
+        <select name="lga" required>
+          <option value="">Select your LGA</option>
+          <option>Agege</option>
+          <option>Ajeromi-Ifelodun</option>
+          <option>Alimosho</option>
+          <option>Amuwo-Odofin</option>
+          <option>Apapa</option>
+          <option>Badagry</option>
+          <option>Epe</option>
+          <option>Eti-Osa</option>
+          <option>Ibeju-Lekki</option>
+          <option>Ifako-Ijaiye</option>
+          <option>Ikeja</option>
+          <option>Ikorodu</option>
+          <option>Kosofe</option>
+          <option>Lagos Island</option>
+          <option>Lagos Mainland</option>
+          <option>Mushin</option>
+          <option>Ojo</option>
+          <option>Oshodi-Isolo</option>
+          <option>Shomolu</option>
+          <option>Surulere</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="qlabel">Which area do you drive most often?<span class="req">*</span></label>
+        <select name="driveArea" required>
+          <option value="">Select an area</option>
+          <option>Victoria Island</option>
+          <option>Ikoyi</option>
+          <option>Lekki Phase 1</option>
+          <option>Lekki</option>
+          <option>Ajah</option>
+          <option>Ikeja</option>
+          <option>Yaba</option>
+          <option>Surulere</option>
+          <option>Airport Road</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- B -->
+    <section class="step" data-step="1">
+      <h2 class="section-title"><span class="num">B</span>Driver Profile</h2>
+      <p class="section-sub">Tell us how you drive.</p>
+
+      <div class="field">
+        <label class="qlabel">Which ride-hailing platform(s) do you currently drive with? <span class="hint" style="display:inline">(Select all that apply)</span></label>
+        <div class="options">
+          <label class="check"><input type="checkbox" name="platforms" value="Bolt"><span class="check-text">Bolt</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="Uber"><span class="check-text">Uber</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="inDrive"><span class="check-text">inDrive</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="LagRide"><span class="check-text">LagRide</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="Rida"><span class="check-text">Rida</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="Airport Taxi"><span class="check-text">Airport Taxi</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="Independent Driver"><span class="check-text">Independent Driver</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="Other"><span class="check-text">Other</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="All of the above"><span class="check-text">All of the above</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="isActive">
+        <label class="qlabel">Are you currently an active driver?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="isActive" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="isActive" value="No"><span class="choice-text">No</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="experience">
+        <label class="qlabel">How long have you been driving professionally?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="experience" value="Less than 6 months"><span class="choice-text">Less than 6 months</span></label>
+          <label class="choice"><input type="radio" name="experience" value="6 months – 1 year"><span class="choice-text">6 months – 1 year</span></label>
+          <label class="choice"><input type="radio" name="experience" value="1–3 years"><span class="choice-text">1–3 years</span></label>
+          <label class="choice"><input type="radio" name="experience" value="Over 3 years"><span class="choice-text">Over 3 years</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- C -->
+    <section class="step" data-step="2">
+      <h2 class="section-title"><span class="num">C</span>Vehicle Information</h2>
+      <p class="section-sub">A quick look at what you drive.</p>
+
+      <div class="grid2">
+        <div class="field">
+          <label class="qlabel">Vehicle Make<span class="req">*</span></label>
+          <input type="text" name="vMake" placeholder="e.g. Toyota" required>
+        </div>
+        <div class="field">
+          <label class="qlabel">Vehicle Model<span class="req">*</span></label>
+          <input type="text" name="vModel" placeholder="e.g. Corolla" required>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label class="qlabel">Vehicle Year<span class="req">*</span></label>
+          <input type="text" name="vYear" required>
+        </div>
+        <div class="field">
+          <label class="qlabel">Vehicle Colour<span class="req">*</span></label>
+          <input type="text" name="vColour" required>
+        </div>
+      </div>
+      <div class="field">
+        <label class="qlabel">Vehicle Registration Number<span class="req">*</span></label>
+        <input type="text" name="vReg" required>
+      </div>
+
+      <div class="field" data-required data-name="ownership">
+        <label class="qlabel">Who owns the vehicle?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="ownership" value="I own it"><span class="choice-text">I own it</span></label>
+          <label class="choice"><input type="radio" name="ownership" value="Hire Purchase"><span class="choice-text">Hire Purchase</span></label>
+          <label class="choice"><input type="radio" name="ownership" value="Fleet Company"><span class="choice-text">Fleet Company</span></label>
+          <label class="choice"><input type="radio" name="ownership" value="Rental"><span class="choice-text">Rental</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- D -->
+    <section class="step" data-step="3">
+      <h2 class="section-title"><span class="num">D</span>Campaign Interest</h2>
+      <p class="section-sub">Tell us why this matters to you.</p>
+
+      <div class="field">
+        <label class="qlabel">Why should your vehicle be selected for this campaign?<span class="req">*</span></label>
+        <textarea name="whySelected" required></textarea>
+      </div>
+
+      <div class="field" data-required data-name="wantsToParticipate">
+        <label class="qlabel">If selected, would you like to participate in the vehicle restoration campaign?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="wantsToParticipate" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="wantsToParticipate" value="Maybe"><span class="choice-text">Maybe</span></label>
+          <label class="choice"><input type="radio" name="wantsToParticipate" value="No"><span class="choice-text">No</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- E -->
+    <section class="step" data-step="4">
+      <h2 class="section-title"><span class="num">E</span>Vehicle Condition</h2>
+      <p class="section-sub">Help us assess your vehicle's current paint condition.</p>
+
+      <div class="field">
+        <label class="qlabel">What best describes your vehicle's current paint condition? <span class="hint" style="display:inline">(Select all that apply)</span></label>
+        <div class="options">
+          <label class="check"><input type="checkbox" name="paintCondition" value="Faded Paint"><span class="check-text">Faded Paint</span></label>
+          <label class="check"><input type="checkbox" name="paintCondition" value="Deep Scratches"><span class="check-text">Deep Scratches</span></label>
+          <label class="check"><input type="checkbox" name="paintCondition" value="Peeling Paint"><span class="check-text">Peeling Paint</span></label>
+          <label class="check"><input type="checkbox" name="paintCondition" value="Accident Damage"><span class="check-text">Accident Damage</span></label>
+          <label class="check"><input type="checkbox" name="paintCondition" value="Rust Spots"><span class="check-text">Rust Spots</span></label>
+          <label class="check"><input type="checkbox" name="paintCondition" value="Dents"><span class="check-text">Dents</span></label>
+          <label class="check"><input type="checkbox" name="paintCondition" value="Excellent Condition"><span class="check-text">Excellent Condition</span></label>
+          <label class="check"><input type="checkbox" name="paintCondition" value="Other"><span class="check-text">Other</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="repainted">
+        <label class="qlabel">Has your vehicle ever been repainted?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="repainted" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="repainted" value="No"><span class="choice-text">No</span></label>
+          <label class="choice"><input type="radio" name="repainted" value="Not Sure"><span class="choice-text">Not Sure</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- F -->
+    <section class="step" data-step="5">
+      <h2 class="section-title"><span class="num">F</span>Verification</h2>
+      <p class="section-sub">Verification is required for shortlisted applicants only.</p>
+
+      <div class="verify-note">Only shortlisted applicants will need to complete this step. You can still attach documents now if you have them ready.</div>
+
+      <div class="field file-field">
+        <label class="qlabel">Valid Driver's Licence</label>
+        <input type="file" name="licenceFile" accept="image/*,.pdf">
+        <p class="file-note">Upload a clear photo or scan of your licence.</p>
+      </div>
+
+      <div class="field file-field">
+        <label class="qlabel">Screenshot showing ride activity</label>
+        <input type="file" name="activityFile" accept="image/*">
+        <p class="file-note">e.g. Driver dashboard, completed trips, active driver status.</p>
+      </div>
+
+      <div class="field file-field">
+        <label class="qlabel">Vehicle Photos</label>
+        <input type="file" name="vehiclePhotos" accept="image/*" multiple>
+        <p class="file-note">Please upload: Front view, rear view, left side, right side, dashboard, and any damaged or faded paint areas (optional).</p>
+      </div>
+
+      <div class="field" data-required data-name="allowPromo">
+        <label class="qlabel">If selected, would you allow AUTocare 360 to photograph or film your vehicle before and after restoration for promotional purposes?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="allowPromo" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="allowPromo" value="No"><span class="choice-text">No</span></label>
+          <label class="choice"><input type="radio" name="allowPromo" value="Maybe"><span class="choice-text">Maybe</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- G -->
+    <section class="step" data-step="6">
+      <h2 class="section-title"><span class="num">G</span>Campaign Awareness</h2>
+      <p class="section-sub">Help us understand how word is spreading.</p>
+
+      <div class="field" data-required data-name="hearAbout">
+        <label class="qlabel">How did you hear about this campaign?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="hearAbout" value="Facebook"><span class="choice-text">Facebook</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="Instagram"><span class="choice-text">Instagram</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="TikTok"><span class="choice-text">TikTok</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="WhatsApp"><span class="choice-text">WhatsApp</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="Friend / Referral"><span class="choice-text">Friend / Referral</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="Flyer"><span class="choice-text">Flyer</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="Google Search"><span class="choice-text">Google Search</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="Other"><span class="choice-text">Other</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- H -->
+    <section class="step" data-step="7">
+      <h2 class="section-title"><span class="num">H</span>Consent</h2>
+      <p class="section-sub">Confirm your declaration to submit your application.</p>
+
+      <div class="decl">
+        <div class="field">
+          <label class="check">
+            <input type="checkbox" name="declTrue" required>
+            <span class="check-text">I confirm that the information provided is true and accurate.</span>
+          </label>
+        </div>
+        <div class="field">
+          <label class="check">
+            <input type="checkbox" name="declVerify" required>
+            <span class="check-text">I understand that AUTocare 360 may verify my information before confirming eligibility.</span>
+          </label>
+        </div>
+        <div class="field">
+          <label class="check">
+            <input type="checkbox" name="declNoGuarantee" required>
+            <span class="check-text">I understand that submitting this form does not guarantee selection.</span>
+          </label>
+        </div>
+        <div class="field">
+          <label class="check">
+            <input type="checkbox" name="declContact" required>
+            <span class="check-text">I agree to be contacted by AUTocare 360 regarding this campaign and future driver programmes.</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <p class="error-msg" id="errorMsg">Please answer the required fields before continuing.</p>
+
+    <div class="nav-row">
+      <button type="button" class="btn btn-ghost" id="backBtn">Back</button>
+      <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+      <button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">Submit</button>
+    </div>
+  </form>
+
+  <div class="card" id="thanksCard" style="display:none;">
+    <div class="thanks">
+      <div class="big">🎉</div>
+      <h2>Thank You!</h2>
+      <p>Your application has been received successfully. If your application is shortlisted, we'll contact you using your phone number or WhatsApp.</p>
+
+      <div class="refer-block">
+        <h3>🚀 Increase Your Chances of Winning</h3>
+        <p>Within 24 hours, you'll receive your <strong>unique referral code</strong>.</p>
+        <p>Share your code with other active ride-hailing drivers.</p>
+        <p>When <strong>3 eligible drivers</strong> register using your referral code, you'll unlock <strong>an extra entry</strong> into the FREE Vehicle Respray draw.</p>
+        <p>The more eligible drivers who register using your referral code, the higher your chances of winning. Terms &amp; Conditions apply.</p>
+      </div>
+
+      <p style="margin-top:18px;">Thank you for joining the AUTocare 360 Driver Community.</p>
+      <p class="motto">AUTocare 360 · <span>Helping Drivers Stay Ready. Stay Moving.</span></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const steps = Array.from(document.querySelectorAll('.step'));
+  const total = steps.length;
+  let current = 0;
+
+  const stopNames = [
+    "Driver Information",
+    "Driver Profile",
+    "Vehicle Information",
+    "Campaign Interest",
+    "Vehicle Condition",
+    "Verification",
+    "Campaign Awareness",
+    "Consent"
+  ];
+
+  const gaugeFill = document.getElementById('gaugeFill');
+  const stopText = document.getElementById('stopText');
+  const stopName = document.getElementById('stopName');
+  const backBtn = document.getElementById('backBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const form = document.getElementById('acForm');
+  const thanksCard = document.getElementById('thanksCard');
+
+  function updateGauge(){
+    const pct = (current / (total - 1)) * 100;
+    gaugeFill.style.width = pct + '%';
+    stopText.textContent = 'Step ' + (current + 1) + ' of ' + total;
+    stopName.textContent = stopNames[current];
+  }
+
+  function render(){
+    steps.forEach((s, i) => s.style.display = (i === current) ? 'block' : 'none');
+    backBtn.style.display = current === 0 ? 'none' : 'inline-block';
+    nextBtn.style.display = current === total - 1 ? 'none' : 'inline-block';
+    submitBtn.style.display = current === total - 1 ? 'inline-block' : 'none';
+    errorMsg.classList.remove('show');
+    updateGauge();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  form.addEventListener('change', (e) => {
+    const t = e.target;
+    if(t.matches('input[type="radio"]')){
+      document.querySelectorAll('input[name="'+t.name+'"]').forEach(r => {
+        r.closest('.choice').classList.toggle('selected', r.checked);
+      });
+    }
+    if(t.matches('input[type="checkbox"]') && t.closest('.check')){
+      t.closest('.check').classList.toggle('selected', t.checked);
+    }
+  });
+
+  function currentStepValid(){
+    const step = steps[current];
+    const requiredFields = step.querySelectorAll('[data-required]');
+    for(const rf of requiredFields){
+      const name = rf.getAttribute('data-name');
+      const checked = step.querySelector('input[name="'+name+'"]:checked');
+      if(!checked) return false;
+    }
+    const requiredInputs = step.querySelectorAll('input[required], textarea[required], select[required]');
+    for(const inp of requiredInputs){
+      if(inp.type === 'checkbox' && !inp.checked) return false;
+      if(inp.type !== 'checkbox' && !inp.value.trim()) return false;
+    }
+    return true;
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if(!currentStepValid()){
+      errorMsg.classList.add('show');
+      return;
+    }
+    if(current < total - 1){ current++; render(); }
+  });
+
+  backBtn.addEventListener('click', () => {
+    if(current > 0){ current--; render(); }
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if(!currentStepValid()){
+      errorMsg.classList.add('show');
+      return;
+    }
+    form.style.display = 'none';
+    document.querySelector('.gauge-region').style.display = 'none';
+    thanksCard.style.display = 'block';
+  });
+
+  render();
+</script>
+
+</body>
+</html>
