@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Become a Founding FAAST Driver</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap');
+
+  :root{
+    --asphalt: #1B1B1D;
+    --asphalt-2: #2A2A2E;
+    --amber: #FFB100;
+    --amber-dim: #A87700;
+    --lane: #F5F5F0;
+    --card: #FFFFFF;
+    --ink: #1B1B1D;
+    --muted: #6B6B70;
+    --green: #2F8F4E;
+    --danger: #C43D3D;
+    --border: #1B1B1D;
+    --radius: 2px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--lane);
+    color: var(--ink);
+    font-family:'Barlow', sans-serif;
+    font-size:16px;
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,.eyebrow,.stop-label,.btn,.chip{
+    font-family:'Barlow Condensed', sans-serif;
+    letter-spacing:0.02em;
+  }
+
+  .wrap{
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 0 64px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background: var(--asphalt);
+    color: var(--lane);
+    padding: 36px 24px 28px;
+    position: relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:0;
+    height:6px;
+    background: repeating-linear-gradient(90deg, var(--amber) 0 28px, transparent 28px 48px);
+  }
+  .eyebrow{
+    display:inline-block;
+    color: var(--amber);
+    font-weight:700;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+  }
+  h1{
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 0.98;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+  }
+  .tagline{
+    font-size: 17px;
+    color: #C9C9CC;
+    margin: 0 0 4px;
+    font-weight: 500;
+  }
+  .tagline strong{ color: var(--lane); }
+  .subtag{
+    font-size:14px;
+    color:#9A9AA0;
+    margin:0;
+  }
+
+  .perks{
+    list-style:none;
+    margin: 20px 0 0;
+    padding:0;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:8px 16px;
+  }
+  .perks li{
+    font-size: 14.5px;
+    color:#E4E4E6;
+    display:flex;
+    gap:8px;
+    align-items:flex-start;
+  }
+  .perks li b{ color:var(--lane); font-weight:600; }
+
+  /* ---------- ROAD PROGRESS ---------- */
+  .road-region{
+    background: var(--asphalt-2);
+    padding: 18px 24px 22px;
+  }
+  .stop-label{
+    color:var(--lane);
+    font-size: 14px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin: 0 0 10px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .stop-label span:last-child{ color: var(--amber); }
+
+  .road{
+    position:relative;
+    height: 34px;
+  }
+  .road-surface{
+    position:absolute;
+    top:14px; left:0; right:0;
+    height:6px;
+    background: #3A3A3F;
+    border-radius: 3px;
+  }
+  .road-dashes{
+    position:absolute;
+    top:16px; left:0; right:0;
+    height:2px;
+    background: repeating-linear-gradient(90deg, var(--amber) 0 10px, transparent 10px 20px);
+    opacity:0.9;
+  }
+  .road-fill{
+    position:absolute;
+    top:14px; left:0;
+    height:6px;
+    background: var(--amber);
+    border-radius: 3px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+  .road-car{
+    position:absolute;
+    top: -2px;
+    left: 0%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    transition: left 0.5s cubic-bezier(.4,0,.2,1);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .road-fill, .road-car{ transition:none; }
+  }
+
+  /* ---------- FORM CARD ---------- */
+  .card{
+    background: var(--card);
+    margin: 0 16px;
+    border: 2px solid var(--border);
+    border-top: none;
+    padding: 28px 24px 24px;
+  }
+  @media (min-width:640px){
+    .card{ margin: 0 auto; padding: 34px 40px 30px; }
+    .hero, .road-region{ padding-left:40px; padding-right:40px; }
+  }
+
+  .section-title{
+    font-size: 26px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0 0 4px;
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+  }
+  .section-title .num{
+    color: var(--amber-dim);
+    background: var(--asphalt);
+    color: var(--amber);
+    font-size:15px;
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+  .section-sub{
+    color: var(--muted);
+    font-size: 14.5px;
+    margin: 0 0 22px;
+  }
+
+  .field{
+    margin-bottom: 20px;
+  }
+  .field.hidden{ display:none; }
+  label.qlabel{
+    display:block;
+    font-weight:600;
+    font-size: 15px;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  label.qlabel .req{ color: var(--danger); margin-left:2px; }
+  label.qlabel .hint{
+    display:block;
+    font-weight:400;
+    font-size:13px;
+    color:var(--muted);
+    margin-top:2px;
+  }
+
+  input[type="text"], input[type="tel"], input[type="email"], select{
+    width:100%;
+    padding: 11px 12px;
+    font-size:15px;
+    font-family:'Barlow', sans-serif;
+    border: 1.5px solid #C9C9C9;
+    border-radius: var(--radius);
+    background: #fff;
+    color: var(--ink);
+  }
+  input:focus, select:focus, .choice input:focus + .choice-face, .check input:focus + .check-face{
+    outline: 3px solid var(--amber);
+    outline-offset: 1px;
+    border-color: var(--asphalt);
+  }
+  select{ appearance:auto; }
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .choice, .check{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border:1.5px solid #D8D8D6;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    cursor:pointer;
+    background:#fff;
+  }
+  .choice:hover, .check:hover{ border-color: var(--asphalt); }
+  .choice input, .check input{ accent-color: var(--asphalt); width:16px; height:16px; flex:none; }
+  .choice.selected, .check.selected{
+    border-color: var(--asphalt);
+    background: #FFF8E8;
+  }
+  .choice-text, .check-text{ font-size:14.5px; }
+
+  .grid2{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  @media (min-width:560px){
+    .grid2{ grid-template-columns: 1fr 1fr; }
+  }
+
+  .nav-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top: 28px;
+    gap: 12px;
+  }
+  .btn{
+    font-size: 17px;
+    font-weight: 700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    padding: 13px 22px;
+    border-radius: var(--radius);
+    border: 2px solid var(--asphalt);
+    cursor:pointer;
+  }
+  .btn-primary{
+    background: var(--amber);
+    color: var(--asphalt);
+    margin-left:auto;
+  }
+  .btn-primary:hover{ background:#E6A000; }
+  .btn-ghost{
+    background: transparent;
+    color: var(--asphalt);
+  }
+  .btn-ghost:hover{ background:#EFEFEC; }
+  .btn:disabled{ opacity:0.4; cursor:not-allowed; }
+
+  .error-msg{
+    color: var(--danger);
+    font-size: 13.5px;
+    margin-top: 22px;
+    display:none;
+  }
+  .error-msg.show{ display:block; }
+
+  /* ---------- THANK YOU ---------- */
+  .thanks{
+    text-align:center;
+    padding: 20px 0 8px;
+  }
+  .thanks .big{
+    font-size: 52px;
+    margin-bottom: 6px;
+  }
+  .thanks h2{
+    font-size: 30px;
+    text-transform:uppercase;
+    margin: 0 0 12px;
+  }
+  .thanks p{ color: var(--muted); font-size:15px; max-width:480px; margin: 0 auto 10px;}
+  .thanks .motto{
+    margin-top:22px;
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:800;
+    font-size:22px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color: var(--asphalt);
+  }
+  .thanks .motto span{ color: var(--amber-dim); }
+
+  .kit-box{
+    border: 1.5px dashed var(--amber-dim);
+    background: #FFFBF0;
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    font-size: 14.5px;
+  }
+  .kit-box strong{ display:block; margin-bottom:6px; }
+
+  .decl{
+    border-top: 2px solid var(--asphalt);
+    padding-top: 18px;
+    margin-top: 6px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="eyebrow">FAAST · Founding Driver Programme</span>
+    <h1>Become a Founding<br>FAAST Driver</h1>
+    <p class="tagline"><strong>Drive More. Earn More. Keep More.</strong></p>
+    <p class="subtag">Built by drivers. Built for drivers. Complete your registration in under 2 minutes.</p>
+    <ul class="perks">
+      <li><b>💰</b> No commission on every trip</li>
+      <li><b>🚗</b> We support offline trips</li>
+      <li><b>🛠️</b> Driver support tools</li>
+      <li><b>⭐</b> Priority access as a Founding Driver</li>
+    </ul>
+  </div>
+
+  <div class="road-region">
+    <div class="stop-label">
+      <span id="stopText">Stop 1 of 9</span>
+      <span id="stopName">Tell Us About Yourself</span>
+    </div>
+    <div class="road">
+      <div class="road-surface"></div>
+      <div class="road-dashes"></div>
+      <div class="road-fill" id="roadFill"></div>
+      <div class="road-car" id="roadCar">🚗</div>
+    </div>
+  </div>
+
+  <form class="card" id="faastForm" novalidate data-netlify="true" name="driver-waitlist">
+
+    <!-- STEP 1 -->
+    <section class="step" data-step="0">
+      <h2 class="section-title"><span class="num">01</span>Tell Us About Yourself</h2>
+      <p class="section-sub">Your basic contact details.</p>
+
+      <div class="field">
+        <label class="qlabel">Full Name<span class="req">*</span></label>
+        <input type="text" name="fullName" required>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label class="qlabel">Mobile Number<span class="req">*</span></label>
+          <input type="tel" name="mobile" required>
+        </div>
+        <div class="field">
+          <label class="qlabel">WhatsApp Number<span class="req">*</span></label>
+          <input type="tel" name="whatsapp" required>
+        </div>
+      </div>
+      <div class="field">
+        <label class="qlabel">Email Address <span class="hint" style="display:inline">(Optional)</span></label>
+        <input type="email" name="email">
+      </div>
+      <div class="field">
+        <label class="qlabel">Area you drive most often<span class="req">*</span></label>
+        <select name="area" required>
+          <option value="">Select an area</option>
+          <option>Victoria Island</option>
+          <option>Lekki Phase 1</option>
+          <option>Lekki</option>
+          <option>Ajah</option>
+          <option>Ikoyi</option>
+          <option>Ikeja</option>
+          <option>Yaba</option>
+          <option>Surulere</option>
+          <option>Airport Road</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section class="step" data-step="1">
+      <h2 class="section-title"><span class="num">02</span>Your Driving Profile</h2>
+      <p class="section-sub">Tell us how and how much you drive.</p>
+
+      <div class="field" data-required data-name="experience">
+        <label class="qlabel">How long have you been driving commercially?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="experience" value="Less than 1 year"><span class="choice-text">Less than 1 year</span></label>
+          <label class="choice"><input type="radio" name="experience" value="1–2 years"><span class="choice-text">1–2 years</span></label>
+          <label class="choice"><input type="radio" name="experience" value="3–5 years"><span class="choice-text">3–5 years</span></label>
+          <label class="choice"><input type="radio" name="experience" value="More than 5 years"><span class="choice-text">More than 5 years</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="qlabel">Which platform(s) do you currently drive with? <span class="hint" style="display:inline">(Select all that apply)</span></label>
+        <div class="options">
+          <label class="check"><input type="checkbox" name="platforms" value="Uber"><span class="check-text">Uber</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="Bolt"><span class="check-text">Bolt</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="inDrive"><span class="check-text">inDrive</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="LagRide"><span class="check-text">LagRide</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="Airport Taxi"><span class="check-text">Airport Taxi</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="Independent Driver"><span class="check-text">Independent Driver</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="Other"><span class="check-text">Other</span></label>
+          <label class="check"><input type="checkbox" name="platforms" value="All of the above"><span class="check-text">All of the above</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="driverType">
+        <label class="qlabel">Which best describes you?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="driverType" value="Full-time Driver"><span class="choice-text">Full-time Driver</span></label>
+          <label class="choice"><input type="radio" name="driverType" value="Part-time Driver"><span class="choice-text">Part-time Driver</span></label>
+          <label class="choice"><input type="radio" name="driverType" value="Fleet Driver"><span class="choice-text">Fleet Driver</span></label>
+          <label class="choice"><input type="radio" name="driverType" value="Fleet Owner"><span class="choice-text">Fleet Owner</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="tripsPerDay">
+        <label class="qlabel">How many trips do you complete on a normal day?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="tripsPerDay" value="Under 5"><span class="choice-text">Under 5</span></label>
+          <label class="choice"><input type="radio" name="tripsPerDay" value="5–10"><span class="choice-text">5–10</span></label>
+          <label class="choice"><input type="radio" name="tripsPerDay" value="10–15"><span class="choice-text">10–15</span></label>
+          <label class="choice"><input type="radio" name="tripsPerDay" value="More than 15"><span class="choice-text">More than 15</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="dailyEarnings">
+        <label class="qlabel">Average daily earnings<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="dailyEarnings" value="Under ₦15,000"><span class="choice-text">Under ₦15,000</span></label>
+          <label class="choice"><input type="radio" name="dailyEarnings" value="₦15,000–₦25,000"><span class="choice-text">₦15,000–₦25,000</span></label>
+          <label class="choice"><input type="radio" name="dailyEarnings" value="₦25,000–₦35,000"><span class="choice-text">₦25,000–₦35,000</span></label>
+          <label class="choice"><input type="radio" name="dailyEarnings" value="Above ₦35,000"><span class="choice-text">Above ₦35,000</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="acceptsOffline">
+        <label class="qlabel">Do you accept offline trips?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="acceptsOffline" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="acceptsOffline" value="Sometimes"><span class="choice-text">Sometimes</span></label>
+          <label class="choice"><input type="radio" name="acceptsOffline" value="No"><span class="choice-text">No</span></label>
+        </div>
+      </div>
+
+      <div class="field hidden" id="offlinePctField" data-name="offlinePct">
+        <label class="qlabel">About how many of your trips are offline?</label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="offlinePct" value="Less than 20%"><span class="choice-text">Less than 20%</span></label>
+          <label class="choice"><input type="radio" name="offlinePct" value="20–40%"><span class="choice-text">20–40%</span></label>
+          <label class="choice"><input type="radio" name="offlinePct" value="40–60%"><span class="choice-text">40–60%</span></label>
+          <label class="choice"><input type="radio" name="offlinePct" value="More than 60%"><span class="choice-text">More than 60%</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="step" data-step="2">
+      <h2 class="section-title"><span class="num">03</span>Your Vehicle</h2>
+      <p class="section-sub">A quick look at what you drive.</p>
+
+      <div class="grid2">
+        <div class="field">
+          <label class="qlabel">Vehicle Make<span class="req">*</span></label>
+          <input type="text" name="vMake" required>
+        </div>
+        <div class="field">
+          <label class="qlabel">Vehicle Model<span class="req">*</span></label>
+          <input type="text" name="vModel" required>
+        </div>
+      </div>
+      <div class="field">
+        <label class="qlabel">Year of Manufacture<span class="req">*</span></label>
+        <input type="text" name="vYear" required>
+      </div>
+
+      <div class="field" data-required data-name="transmission">
+        <label class="qlabel">Transmission<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="transmission" value="Automatic"><span class="choice-text">Automatic</span></label>
+          <label class="choice"><input type="radio" name="transmission" value="Manual"><span class="choice-text">Manual</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="fuelType">
+        <label class="qlabel">Fuel Type<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="fuelType" value="Petrol"><span class="choice-text">Petrol</span></label>
+          <label class="choice"><input type="radio" name="fuelType" value="Diesel"><span class="choice-text">Diesel</span></label>
+          <label class="choice"><input type="radio" name="fuelType" value="Hybrid"><span class="choice-text">Hybrid</span></label>
+          <label class="choice"><input type="radio" name="fuelType" value="Electric (EV)"><span class="choice-text">Electric (EV)</span></label>
+          <label class="choice"><input type="radio" name="fuelType" value="CNG (Compressed Natural Gas)"><span class="choice-text">CNG (Compressed Natural Gas)</span></label>
+          <label class="choice"><input type="radio" name="fuelType" value="Other"><span class="choice-text">Other</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="ownership">
+        <label class="qlabel">Who owns the vehicle?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="ownership" value="I own it"><span class="choice-text">I own it</span></label>
+          <label class="choice"><input type="radio" name="ownership" value="Hire Purchase"><span class="choice-text">Hire Purchase</span></label>
+          <label class="choice"><input type="radio" name="ownership" value="Fleet Company"><span class="choice-text">Fleet Company</span></label>
+          <label class="choice"><input type="radio" name="ownership" value="Rental"><span class="choice-text">Rental</span></label>
+        </div>
+      </div>
+
+      <div class="field hidden" id="remittanceField" data-name="remittance">
+        <label class="qlabel">Weekly remittance amount</label>
+        <input type="text" name="remittance">
+      </div>
+    </section>
+
+    <!-- STEP 4 -->
+    <section class="step" data-step="3">
+      <h2 class="section-title"><span class="num">04</span>Your Biggest Challenges</h2>
+      <p class="section-sub">Help us understand what's cutting into your income.</p>
+
+      <div class="field">
+        <label class="qlabel">What affects your income the most? <span class="hint" style="display:inline">(Select all that apply)</span></label>
+        <div class="options">
+          <label class="check"><input type="checkbox" name="challenges" value="High commission"><span class="check-text">High commission</span></label>
+          <label class="check"><input type="checkbox" name="challenges" value="Fuel cost"><span class="check-text">Fuel cost</span></label>
+          <label class="check"><input type="checkbox" name="challenges" value="Vehicle repairs"><span class="check-text">Vehicle repairs</span></label>
+          <label class="check"><input type="checkbox" name="challenges" value="Vehicle breakdown"><span class="check-text">Vehicle breakdown</span></label>
+          <label class="check"><input type="checkbox" name="challenges" value="Flat tyre"><span class="check-text">Flat tyre</span></label>
+          <label class="check"><input type="checkbox" name="challenges" value="Dead battery"><span class="check-text">Dead battery</span></label>
+          <label class="check"><input type="checkbox" name="challenges" value="Long passenger waiting time"><span class="check-text">Long passenger waiting time</span></label>
+          <label class="check"><input type="checkbox" name="challenges" value="Rider cancellations"><span class="check-text">Rider cancellations</span></label>
+          <label class="check"><input type="checkbox" name="challenges" value="Security"><span class="check-text">Security</span></label>
+          <label class="check"><input type="checkbox" name="challenges" value="Low ride requests"><span class="check-text">Low ride requests</span></label>
+          <label class="check"><input type="checkbox" name="challenges" value="Other"><span class="check-text">Other</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="breakdownFreq">
+        <label class="qlabel">How often does your vehicle break down unexpectedly?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="breakdownFreq" value="Never"><span class="choice-text">Never</span></label>
+          <label class="choice"><input type="radio" name="breakdownFreq" value="Every few months"><span class="choice-text">Every few months</span></label>
+          <label class="choice"><input type="radio" name="breakdownFreq" value="Monthly"><span class="choice-text">Monthly</span></label>
+          <label class="choice"><input type="radio" name="breakdownFreq" value="Weekly"><span class="choice-text">Weekly</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 5 -->
+    <section class="step" data-step="4">
+      <h2 class="section-title"><span class="num">05</span>Roadside Essentials Kit</h2>
+      <p class="section-sub">Stay on the road. Keep earning.</p>
+
+      <div class="kit-box">
+        <strong>FAAST Roadside Essentials Kit</strong>
+        🛞 Rechargeable Tyre Inflator · 🔋 Battery Jump Starter · 📱 Fast Phone Charger
+      </div>
+
+      <div class="field" data-required data-name="kitHelps">
+        <label class="qlabel">Would this kit help your business?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="kitHelps" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="kitHelps" value="Maybe"><span class="choice-text">Maybe</span></label>
+          <label class="choice"><input type="radio" name="kitHelps" value="No"><span class="choice-text">No</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="kitInterest">
+        <label class="qlabel">Would you be interested if selected for this programme?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="kitInterest" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="kitInterest" value="Maybe"><span class="choice-text">Maybe</span></label>
+          <label class="choice"><input type="radio" name="kitInterest" value="No"><span class="choice-text">No</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 6 -->
+    <section class="step" data-step="5">
+      <h2 class="section-title"><span class="num">06</span>Join the Community</h2>
+      <p class="section-sub">Tell us what excites you about FAAST.</p>
+
+      <div class="field">
+        <label class="qlabel">What interests you most about FAAST? <span class="hint" style="display:inline">(Select all that apply)</span></label>
+        <div class="options">
+          <label class="check"><input type="checkbox" name="interests" value="Earn more money"><span class="check-text">Earn more money</span></label>
+          <label class="check"><input type="checkbox" name="interests" value="No commission on every trip"><span class="check-text">No commission on every trip</span></label>
+          <label class="check"><input type="checkbox" name="interests" value="We support offline trips"><span class="check-text">We support offline trips</span></label>
+          <label class="check"><input type="checkbox" name="interests" value="Driver support tools"><span class="check-text">Driver support tools</span></label>
+          <label class="check"><input type="checkbox" name="interests" value="FAAST Roadside Essentials Kit"><span class="check-text">FAAST Roadside Essentials Kit</span></label>
+          <label class="check"><input type="checkbox" name="interests" value="Faster passenger matching"><span class="check-text">Faster passenger matching</span></label>
+          <label class="check"><input type="checkbox" name="interests" value="Driver community"><span class="check-text">Driver community</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="wouldSubscribe">
+        <label class="qlabel">If FAAST helps you earn more and reduce vehicle downtime, would you subscribe?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="wouldSubscribe" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="wouldSubscribe" value="Maybe"><span class="choice-text">Maybe</span></label>
+          <label class="choice"><input type="radio" name="wouldSubscribe" value="No"><span class="choice-text">No</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="startTime">
+        <label class="qlabel">When would you like to start?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="startTime" value="Immediately"><span class="choice-text">Immediately</span></label>
+          <label class="choice"><input type="radio" name="startTime" value="Within 30 days"><span class="choice-text">Within 30 days</span></label>
+          <label class="choice"><input type="radio" name="startTime" value="Just exploring"><span class="choice-text">Just exploring</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 7 -->
+    <section class="step" data-step="6">
+      <h2 class="section-title"><span class="num">07</span>Driver Verification</h2>
+      <p class="section-sub">A few compliance checks before onboarding.</p>
+
+      <div class="field" data-required data-name="hasLicence">
+        <label class="qlabel">Do you have a valid Driver's Licence?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="hasLicence" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="hasLicence" value="No"><span class="choice-text">No</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="hasLasdri">
+        <label class="qlabel">Do you have a valid LASDRI Card?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="hasLasdri" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="hasLasdri" value="No"><span class="choice-text">No</span></label>
+          <label class="choice"><input type="radio" name="hasLasdri" value="Not Applicable"><span class="choice-text">Not Applicable</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="willVerify">
+        <label class="qlabel">Are you willing to complete FAAST Driver Verification?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="willVerify" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="willVerify" value="No"><span class="choice-text">No</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 8 -->
+    <section class="step" data-step="7">
+      <h2 class="section-title"><span class="num">08</span>Invite Other Drivers</h2>
+      <p class="section-sub">Help other drivers move FAAST too.</p>
+
+      <div class="field" data-required data-name="hearAbout">
+        <label class="qlabel">How did you hear about FAAST?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="hearAbout" value="Another Driver"><span class="choice-text">Another Driver</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="Friend"><span class="choice-text">Friend</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="WhatsApp"><span class="choice-text">WhatsApp</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="Facebook"><span class="choice-text">Facebook</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="Instagram"><span class="choice-text">Instagram</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="TikTok"><span class="choice-text">TikTok</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="Flyer"><span class="choice-text">Flyer</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="Event"><span class="choice-text">Event</span></label>
+          <label class="choice"><input type="radio" name="hearAbout" value="Other"><span class="choice-text">Other</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="willRefer">
+        <label class="qlabel">Would you like to refer other drivers to FAAST?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="willRefer" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="willRefer" value="Maybe Later"><span class="choice-text">Maybe Later</span></label>
+          <label class="choice"><input type="radio" name="willRefer" value="No"><span class="choice-text">No</span></label>
+        </div>
+      </div>
+
+      <div class="field hidden" id="referCountField" data-name="referCount">
+        <label class="qlabel">Approximately how many active drivers could you introduce?</label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="referCount" value="1–5"><span class="choice-text">1–5</span></label>
+          <label class="choice"><input type="radio" name="referCount" value="6–10"><span class="choice-text">6–10</span></label>
+          <label class="choice"><input type="radio" name="referCount" value="11–20"><span class="choice-text">11–20</span></label>
+          <label class="choice"><input type="radio" name="referCount" value="More than 20"><span class="choice-text">More than 20</span></label>
+        </div>
+      </div>
+
+      <div class="field" data-required data-name="ambassador">
+        <label class="qlabel">Would you like to become a FAAST Driver Ambassador?<span class="req">*</span></label>
+        <div class="options">
+          <label class="choice"><input type="radio" name="ambassador" value="Yes"><span class="choice-text">Yes</span></label>
+          <label class="choice"><input type="radio" name="ambassador" value="Tell me more"><span class="choice-text">Tell me more</span></label>
+          <label class="choice"><input type="radio" name="ambassador" value="Not now"><span class="choice-text">Not now</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 9 - DECLARATION -->
+    <section class="step" data-step="8">
+      <h2 class="section-title"><span class="num">09</span>Final Step</h2>
+      <p class="section-sub">Confirm your declaration to submit your application.</p>
+
+      <div class="decl">
+        <div class="field">
+          <label class="check">
+            <input type="checkbox" name="declTrue" required>
+            <span class="check-text">I confirm that the information provided is true and accurate.</span>
+          </label>
+        </div>
+        <div class="field">
+          <label class="check">
+            <input type="checkbox" name="declContact" required>
+            <span class="check-text">I agree to be contacted by FAAST regarding my application, onboarding and future platform updates.</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <p class="error-msg" id="errorMsg">Please answer the required fields before continuing.</p>
+
+    <div class="nav-row">
+      <button type="button" class="btn btn-ghost" id="backBtn">Back</button>
+      <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+      <button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">Submit</button>
+    </div>
+  </form>
+
+  <div class="card" id="thanksCard" style="display:none;">
+    <div class="thanks">
+      <div class="big">🎉</div>
+      <h2>Thank You!</h2>
+      <p>Your application has been received successfully. Our team will review your application and contact qualified drivers through WhatsApp or phone with the next steps.</p>
+      <p>As a Founding FAAST Driver, you'll receive priority consideration for pilot programmes, platform updates, exclusive community opportunities and future driver support initiatives.</p>
+      <p class="motot"></p>
+      <p class="motto">MOVE <span>FAAST.</span> Drive More. Earn More. Keep More.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const steps = Array.from(document.querySelectorAll('.step'));
+  const total = steps.length;
+  let current = 0;
+
+  const stopNames = [
+    "Tell Us About Yourself",
+    "Your Driving Profile",
+    "Your Vehicle",
+    "Your Biggest Challenges",
+    "Roadside Essentials Kit",
+    "Join the Community",
+    "Driver Verification",
+    "Invite Other Drivers",
+    "Final Step"
+  ];
+
+  const roadFill = document.getElementById('roadFill');
+  const roadCar = document.getElementById('roadCar');
+  const stopText = document.getElementById('stopText');
+  const stopName = document.getElementById('stopName');
+  const backBtn = document.getElementById('backBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const form = document.getElementById('faastForm');
+  const thanksCard = document.getElementById('thanksCard');
+
+  function updateRoad(){
+    const pct = (current / (total - 1)) * 100;
+    roadFill.style.width = pct + '%';
+    roadCar.style.left = pct + '%';
+    stopText.textContent = 'Stop ' + (current + 1) + ' of ' + total;
+    stopName.textContent = stopNames[current];
+  }
+
+  function render(){
+    steps.forEach((s, i) => s.style.display = (i === current) ? 'block' : 'none');
+    backBtn.style.display = current === 0 ? 'none' : 'inline-block';
+    nextBtn.style.display = current === total - 1 ? 'none' : 'inline-block';
+    submitBtn.style.display = current === total - 1 ? 'inline-block' : 'none';
+    errorMsg.classList.remove('show');
+    updateRoad();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  // style choice/check highlighting
+  form.addEventListener('change', (e) => {
+    const t = e.target;
+    if(t.matches('input[type="radio"]')){
+      document.querySelectorAll('input[name="'+t.name+'"]').forEach(r => {
+        r.closest('.choice').classList.toggle('selected', r.checked);
+      });
+    }
+    if(t.matches('input[type="checkbox"]') && t.closest('.check')){
+      t.closest('.check').classList.toggle('selected', t.checked);
+    }
+    handleConditionals(t);
+  });
+
+  function handleConditionals(t){
+    if(t.name === 'acceptsOffline'){
+      const field = document.getElementById('offlinePctField');
+      const show = (t.value === 'Yes' || t.value === 'Sometimes');
+      field.classList.toggle('hidden', !show);
+    }
+    if(t.name === 'ownership'){
+      const field = document.getElementById('remittanceField');
+      const show = (t.value === 'Fleet Company' || t.value === 'Rental');
+      field.classList.toggle('hidden', !show);
+    }
+    if(t.name === 'willRefer'){
+      const field = document.getElementById('referCountField');
+      field.classList.toggle('hidden', t.value !== 'Yes');
+    }
+  }
+
+  function currentStepValid(){
+    const step = steps[current];
+    const requiredFields = step.querySelectorAll('[data-required]:not(.hidden)');
+    for(const rf of requiredFields){
+      const name = rf.getAttribute('data-name');
+      const checked = step.querySelector('input[name="'+name+'"]:checked');
+      if(!checked) return false;
+    }
+    const requiredInputs = step.querySelectorAll('input[required], select[required]');
+    for(const inp of requiredInputs){
+      if(inp.type === 'checkbox' && !inp.checked) return false;
+      if(inp.type !== 'checkbox' && !inp.value.trim()) return false;
+    }
+    return true;
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if(!currentStepValid()){
+      errorMsg.classList.add('show');
+      return;
+    }
+    if(current < total - 1){
+      current++;
+      render();
+    }
+  });
+
+  backBtn.addEventListener('click', () => {
+    if(current > 0){
+      current--;
+      render();
+    }
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if(!currentStepValid()){
+      errorMsg.classList.add('show');
+      return;
+    }
+
+    const myForm = event.target;
+  const formData = new FormData(myForm);
+
+  fetch("/", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(formData).toString()
+  })
+    .then(() => {
+      form.style.display = 'none';
+      document.querySelector('.road-region').style.display = 'none';
+      thanksCard.style.display = 'block';
+    })
+    .catch(error => alert(error));
+
+
+    
+    });
+
+  render();
+</script>
+
+</body>
+</html>
