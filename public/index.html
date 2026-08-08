@@ -347,7 +347,7 @@
     </div>
   </div>
 
-  <form class="card" id="acForm" novalidate data-netlify="true" name="faast-waitlist">
+  <form class="card" id="acForm" novalidate data-netlify="true" name="faast-waitlist" enctype="multipart/form-data">
 
     <!-- A -->
     <section class="step" data-step="0">
@@ -767,8 +767,7 @@
 
   fetch("/", {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams(formData).toString()
+    body: formData
   })
     .then(() => {
       form.style.display = 'none';
