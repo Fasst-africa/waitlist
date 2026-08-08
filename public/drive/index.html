@@ -376,7 +376,7 @@
     </div>
   </div>
 
-  <form class="card" id="faastForm" novalidate data-netlify="true" name="driver-waitlist">
+  <form class="card" id="faastForm" novalidate data-netlify="true" name="driver-waitlist" enctype="multipart/form-data">
 
     <!-- STEP 1 -->
     <section class="step" data-step="0">
@@ -899,8 +899,7 @@
 
   fetch("/", {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams(formData).toString()
+    body: formData
   })
     .then(() => {
       form.style.display = 'none';
